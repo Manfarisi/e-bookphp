@@ -9,11 +9,21 @@ if (!isset($admin_id)) {
     header('location:login.php');
 }
 
-if(isset($_GET['delete'])){
+if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
     mysqli_query($conn, "DELETE FROM `users` WHERE id = '$delete_id'") or die('query failed');
     header('location:admin_users.php');
 }
+
+if (isset($_POST['update_role'])) {
+    $user_id = $_POST['user_id'];
+    $new_role = $_POST['user_type'];
+
+    mysqli_query($conn, "UPDATE `users` SET user_type = '$new_role' WHERE id = '$user_id'") or die('query failed');
+    header('location:admin_users.php');
+}
+
+
 
 ?>
 
@@ -34,7 +44,7 @@ if(isset($_GET['delete'])){
 <body>
     <?php include 'admin_header.php'; ?>
 
-    <section class="users">
+    <section class="orders">
 
         <h1 class="title"> Akun Pengguna </h1>
 
@@ -50,7 +60,17 @@ if(isset($_GET['delete'])){
                     <p> tipe user : <span style="color:<?php if ($fetch_users['user_type'] == 'admin') {
                                                             echo 'var(--orange)';
                                                         } ?>"><?php echo $fetch_users['user_type']; ?></span> </p>
-                    <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" onclick="return confirm('hapus akun ini?');" class="delete-btn">delete user</a>
+
+                        <form action="" method="post">
+                        <input type="hidden" name="user_id" value="<?php echo $fetch_users['id']; ?>">
+                        <select name="user_type">
+                            <option value="" selected disabled><?php echo $fetch_users['user_type']; ?></option>
+                            <option value="admin">admin</option>
+                            <option value="user">user</option>
+                        </select>
+                        <input type="submit" name="update_role" class="option-btn" value="Update">
+                        <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" onclick="return confirm('Hapus akun ini?');" class="delete-btn">Hapus</a>
+                    </form>
                 </div>
             <?php
             };
@@ -58,6 +78,17 @@ if(isset($_GET['delete'])){
         </div>
 
     </section>
+
+    <script>
+        function showForm(userId) {
+            document.getElementById('update-form-' + userId).style.display = 'block';
+        }
+
+        function hideForm(userId) {
+            document.getElementById('update-form-' + userId).style.display = 'none';
+        }
+    </script>
+
 
 </body>
 

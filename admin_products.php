@@ -24,7 +24,7 @@ if (isset($_POST['add_product'])) {
     if (mysqli_num_rows($selecet_product_name) > 0) {
         $message[] = 'product name already added';
     } else {
-        $add_product_query = mysqli_query($conn, "INSERT INTO products (name, price,penulis,stock, image) VALUES('$name','$price','$stock','$image')") or die('query or failed');
+        $add_product_query = mysqli_query($conn, "INSERT INTO products (name, price,penulis,stock, image) VALUES('$name','$price', '$penulis','$stock','$image')") or die('query or failed');
 
         if ($add_product_query) {
             if ($image_size > 2000000) {
@@ -126,7 +126,7 @@ if (isset($_POST['update_product'])) {
         <form action="" method="post" enctype="multipart/form-data">
             <h3>Tambah Produk</h3>
             <input type="text" name="name" class="box" placeholder="masukan nama produk" required>
-            <input type="text" name="name" class="box" placeholder="masukan nama penulis" required>
+            <input type="text" name="penulis" class="box" placeholder="masukan nama penulis" required>
             <input type="number" min='0' name="price" class="box" placeholder="masukan harga barang" required>
             <input type="number" name="stock" class="box" placeholder="masukan jumlah stok" required min="0">
             <input type="file" name="image" accept="image/jgp, image/jpeg, image/png" class="box" required>

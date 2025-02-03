@@ -46,7 +46,6 @@ if (isset($_GET['delete'])) {
 
     <div class="box-container">
         <?php
-        // Tambahkan ORDER BY placed_on DESC untuk menampilkan pesanan baru di atas
         $select_orders = mysqli_query($conn, "SELECT * FROM `orders` ORDER BY placed_on DESC") or die('query failed');
         if (mysqli_num_rows($select_orders) > 0) {
             while ($fetch_orders = mysqli_fetch_assoc($select_orders)) {
